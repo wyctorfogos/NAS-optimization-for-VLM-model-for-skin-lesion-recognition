@@ -83,3 +83,39 @@ Option B (Bash runner):
 ```bash
 ./src/nas/run_script_via_bash.sh
 ```
+
+# Paper production: Neural Architecture Search optimization for a multimodal model for skin lesion recognition - Case study
+
+This repository is part of a Neural Architecture Search study to optimize a VLM model for skin lesions classification when using the PAD-UFES-20 dataset.
+
+Please refer to the paper when using this repository. Paper "Neural Architecture Search optimization for a multimodal model for skin lesion recognition - Case study."
+
+## Supplementary material
+
+This Supplementary material section reports the configurations of the top-10 architectures identified by the NAS process, ranked in descending order according to the A-TOPSIS multi-criteria decision-making score. These results provide additional transparency regarding the architectural trade-offs explored during search and support the selection of the final model (ID~21).
+
+\begin{table*}[!ht]
+\centering
+\caption{Top-10 multimodal architectures discovered by NAS, ranked in descending order according to the A-TOPSIS score. The \emph{History} column specifies how validation metrics from previous trials were summarized and provided to the LLM controller.}
+\label{tab:top10_architectures}
+\resizebox{1.05\textwidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+\hline
+Rank & ID & History & CNN Blocks & Init. Filters & Kernel & Layers/Block & Fusion & Fusion Dim & Classifier MLP \\
+\hline
+1  & 21 & TOP-10-BACC & 10 & 64 & 3 & 2 & MetaBlock       & 512 & 2 $\times$ 512 \\
+2  & 23 & TOP-10-BACC & 5  & 64 & 3 & 1 & MetaBlock       & 256 & 1 $\times$ 512 \\
+3  & 11 & LAST-10     & 5  & 32 & 3 & 2 & MetaBlock       & 512 & 1 $\times$ 512 \\
+4  & 7  & FULL        & 5  & 64 & 3 & 2 & MetaBlock       & 256 & 1 $\times$ 512 \\
+5  & 5  & FULL        & 10 & 64 & 5 & 1 & MetaBlock       & 512 & 2 $\times$ 512 \\
+6  & 2  & FULL        & 2  & 32 & 5 & 2 & MetaBlock       & 512 & 2 $\times$ 512 \\
+7  & 3  & FULL        & 5  & 64 & 3 & 2 & MetaBlock       & 512 & 2 $\times$ 256 \\
+8  & 19 & TOP-10-BACC & 5  & 32 & 3 & 1 & MetaBlock       & 128 & 1 $\times$ 512 \\
+9  & 15 & LAST-10     & 5  & 64 & 3 & 2 & Cross-Attention & 512 & 1 $\times$ 256 \\
+10 & 18 & TOP-10-BACC & 2  & 16 & 5 & 2 & MetaBlock       & 128 & 2 $\times$ 512 \\
+\hline
+\end{tabular}%
+}
+\end{table*}
+
+Across the top-10 ranked architectures, MetaBlock emerges as the dominant fusion mechanism, appearing in nearly all high-performing solutions (Appendix~A). In addition, the fusion dimension of 512 is the most frequent configuration among these models, indicating a consistent preference for higher-dimensional shared representations within the explored search space.
